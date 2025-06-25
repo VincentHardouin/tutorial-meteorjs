@@ -16,17 +16,23 @@ Meteor.methods({
     })
   },
 
-  'tasks.remove'(taskId) {
+  async 'tasks.remove'(taskId) {
     check(taskId, String);
 
     if (!this.userId) {
       throw new Meteor.Error('Not authorized.');
     }
 
+    const task = await TasksCollection.findOneAsync({_id: taskId, userId: this.userId});
+
+    if (!task) {
+      throw new Meteor.Error('Access denied.');
+    }
+
     TasksCollection.removeAsync(taskId);
   },
 
-  'tasks.setIsChecked'(taskId, isChecked) {
+  async 'tasks.setIsChecked'(taskId, isChecked) {
     check(taskId, String);
     check(isChecked, Boolean);
 
@@ -34,10 +40,16 @@ Meteor.methods({
       throw new Meteor.Error('Not authorized.');
     }
 
+    const task = await TasksCollection.findOneAsync({ _id: taskId, userId: this.userId });
+
+    if (!task) {
+      throw new Meteor.Error('Access denied.');
+    }
+
     TasksCollection.updateAsync(taskId, {
       $set: {
-        isChecked
-      }
+        isChecked,
+      },
     });
   }
 });
