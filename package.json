@@ -20,5 +20,9 @@
     },
     "testModule": "tests/main.js",
     "modern": true
+  },
+  "devDependencies": {
+    "chai": "^5.2.0",
+    "chai-as-promised": "^8.0.1"
   }
 }

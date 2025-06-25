@@ -2,14 +2,14 @@ import { check } from 'meteor/check';
 import { TasksCollection } from '../db/TasksCollection';
 
 Meteor.methods({
-  'tasks.insert'(text) {
+  async 'tasks.insert'(text) {
     check(text, String);
 
     if (!this.userId) {
       throw new Meteor.Error('Not authorized.');
     }
 
-    TasksCollection.insertAsync({
+    await TasksCollection.insertAsync({
       text,
       createdAt: new Date,
       userId: this.userId,
@@ -29,7 +29,7 @@ Meteor.methods({
       throw new Meteor.Error('Access denied.');
     }
 
-    TasksCollection.removeAsync(taskId);
+    await TasksCollection.removeAsync(taskId);
   },
 
   async 'tasks.setIsChecked'(taskId, isChecked) {
@@ -46,7 +46,7 @@ Meteor.methods({
       throw new Meteor.Error('Access denied.');
     }
 
-    TasksCollection.updateAsync(taskId, {
+    await TasksCollection.updateAsync(taskId, {
       $set: {
         isChecked,
       },
