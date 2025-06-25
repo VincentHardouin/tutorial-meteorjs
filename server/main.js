@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { TasksCollection } from '/imports/api/TasksCollection';
+import { TasksCollection } from '/imports/db/TasksCollection';
+import '/imports/api/tasksMethods';
 
 const SEED_USERNAME = 'meteorite';
 const SEED_PASSWORD = 'password';
